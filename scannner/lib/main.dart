@@ -19,7 +19,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -44,15 +44,15 @@ class HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String result = "a";
   bool resultScanned = false;
-  TapGestureRecognizer _flutterTapRecognizer;
+  late TapGestureRecognizer _flutterTapRecognizer;
   Future _scanQR() async {
     try {
-      String qrResult = await BarcodeScanner.scan();
+      String qrResult = (await BarcodeScanner.scan()) as String;
       setState(() {
         result = qrResult;
       });
     } on PlatformException catch (ex) {
-      if (ex.code == BarcodeScanner.CameraAccessDenied) {
+      if (ex.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
           result = "CAMERA permission denied!";
         });
